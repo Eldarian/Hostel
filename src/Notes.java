@@ -1,0 +1,3 @@
+public enum Notes {
+    FIRST_WARN, SECOND_WARN, HAVE_NOT_PAID, GRADUATE, OK
+}
