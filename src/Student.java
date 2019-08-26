@@ -2,31 +2,43 @@ import java.util.Random;
 
 public class Student extends Human {
     int course;
-    int settleTime;
-    boolean hasPaid = false;
     Pass pass;
 
-    Student(String firstName, String lastName, int course, int settleTime) {
+    Student(String firstName, String lastName, int course, int settleTime, int id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.course = course;
-        this.settleTime = settleTime;
+        this.pass = new Pass(this.getStringName(), settleTime, id);
     }
 
-    void pay() {
-        if(!hasPaid) {
-            Random r = new Random();
-            hasPaid = r.nextInt(10)<8;
-        }
+    protected Student(String firstName, String lastName, int course, Pass pass) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.course = course;
+        this.pass = pass;
     }
 
-    boolean cleanRoom() {
+    private void pay() {
         Random r = new Random();
-        return r.nextInt(10)<5;
+        pass.payState = r.nextBoolean();
+    }
+
+    private void cleanRoom() {
+        Random r = new Random();
+        pass.room.isClean = r.nextBoolean();
     }
 
     String getStringName() {
         return firstName + " " + lastName;
+    }
+
+    void update() {
+        if(!pass.payState) {
+            pay();
+        }
+        if(pass.room.getCleaner()==this) {
+            cleanRoom();
+        }
     }
 
 

@@ -1,21 +1,28 @@
 import java.sql.DatabaseMetaData;
 import java.util.Date;
 
-public class Pass {
-    private int id;
-    private Date startDate;
+class Pass {
+    private final int id;
+    final String owner;
+    private final int startDate;
+    boolean isValid;
     boolean payState;
+    Notes note;
+    Room room;
 
-    Pass(Date startDate, int id) {
+    Pass(String owner, int startDate, int id) {
         this.startDate = startDate;
         this.id = id;
+        this.owner = owner;
+        this.payState = true;
+        this.note = Notes.OK;
     }
 
     int getId() {
         return id;
     }
 
-    Date getStartDate() {
+    int getStartDate() {
         return startDate;
     }
 

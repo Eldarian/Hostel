@@ -3,7 +3,11 @@ import java.util.stream.Stream;
 //For testing - int Stream, at refactoring add LocalDate Stream
 class Time {
 
-    private int currentWeek = 0;
+    private int currentWeek;
+
+    Time() {
+        currentWeek=0;
+    }
 
     int getCurrentWeek() {
         return currentWeek;
@@ -23,7 +27,6 @@ class Time {
 
     void increaseTime() {
         currentWeek++;
-        System.out.println("Week " + currentWeek);
     }
 
 

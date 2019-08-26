@@ -1,15 +1,20 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
-class Room{
-    Floor floor;
+class Room {
+    int roomNumber;
     boolean isClean;
     private Student cleaner;
     private ArrayList<Student> roommates = new ArrayList<>();
 
+    Room(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
     boolean addRoommate(Student newbie) {
         if (roommates.size() < Hostel.studentsInRoom) {
             roommates.add(newbie);
+            newbie.pass.room = this;
             if (roommates.size()==1) {
                 iter = roommates.iterator();
                 setCleaner();
