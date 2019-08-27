@@ -1,5 +1,5 @@
-John Cohen 3
-Jack Diamond 1
+John Cohen 4
+Jack Diamond 4
 Arthur Disembauelson 2
 Boris Chehov 2
 William Case 1
@@ -91,4 +91,3 @@ Tracy Fletcher 3
 Jean Huff 1
 Brad Harmon 1
 Pam Johnston 3
-

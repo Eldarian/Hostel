@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 class Room {
     int roomNumber;
@@ -16,7 +17,6 @@ class Room {
             roommates.add(newbie);
             newbie.pass.room = this;
             if (roommates.size()==1) {
-                iter = roommates.iterator();
                 setCleaner();
             }
             return true;
@@ -24,15 +24,17 @@ class Room {
         return false;
     }
 
+    boolean hasRoommates() {
+        return roommates.size()!=0;
+    }
+
     boolean moveOutRoommate(Student loser) {
         if (!roommates.contains(loser)) return false;
-        if (loser == cleaner) setCleaner();
-        if (loser instanceof Warden)
+        if (cleaner == loser) setCleaner();
         roommates.remove(loser);
         return true;
     }
 
-    private Iterator<Student> iter;
     Student getCleaner() {
         return cleaner;
     }
@@ -40,9 +42,29 @@ class Room {
     ArrayList<Student> getRoommates() {
         return roommates;
     }
-    private void setCleaner() {
+
+    void setCleaner() {
         if (roommates.size()>0) {
-            cleaner = iter.hasNext() ? iter.next() : roommates.get(0);
+            for (int i = 0; i<roommates.size(); i++) {
+                if (cleaner==null) {
+                    cleaner = roommates.get(0);
+                    return;
+                }
+                if (cleaner == roommates.get(i)) {
+                        cleaner = i+1 == roommates.size() ? roommates.get(0) : roommates.get(i+1);
+                        return;
+                }
+            }
         }
+    }
+
+    void printRoomMates(int floorNumber) {
+        if (roommates.size()==0) return;
+        System.out.println(floorNumber + " " + roomNumber + ":");
+        for(Student student: roommates) {
+            if (cleaner == student) System.out.print("(cleaner)");
+            System.out.print(student.getStringName() + ", ");
+        }
+        System.out.println();
     }
 }

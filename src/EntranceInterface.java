@@ -1,4 +1,4 @@
 public interface EntranceInterface {
-    boolean terminal(Pass pass);
+    boolean enter(Pass pass);
     boolean settle();
 }

@@ -28,8 +28,4 @@ class Time {
     void increaseTime() {
         currentWeek++;
     }
-
-
-
-
 }

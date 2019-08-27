@@ -5,7 +5,7 @@ class Pass {
     private final int id;
     final String owner;
     private final int startDate;
-    boolean isValid;
+    boolean isValid = true;;
     boolean payState;
     Notes note;
     Room room;
@@ -21,6 +21,7 @@ class Pass {
     int getId() {
         return id;
     }
+
 
     int getStartDate() {
         return startDate;

@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+
 public class Commandant extends Human{
     private Hostel hostel;
+    ArrayList<Pass> passList;
     private int id=0;
 
-    Commandant(Hostel hostel) {
+    Commandant(Hostel hostel, ArrayList<Pass> passList) {
         this.hostel = hostel;
+        this.passList = passList;
     }
 
     void addStudent(String firstName, String lastName, int course) {
@@ -21,13 +25,14 @@ public class Commandant extends Human{
     }
     private void removeStudent(Pass pass) {
         System.out.println("Commandant cancels pass for " + pass.owner);
+        pass.isValid = false;
         hostel.administration.passList.remove(pass);
     }
     void checkBook() {
         System.out.println("Commandant checks his book.");
-        for (Pass pass: hostel.administration.passList) {
-            if(pass.note == Notes.MOVING_OUT) {
-                removeStudent(pass);
+        for (int i = 0; i < passList.size(); i++) {
+            if(passList.get(i).note == Notes.MOVING_OUT) {
+                removeStudent(passList.get(i));
             }
         }
     }

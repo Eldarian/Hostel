@@ -20,16 +20,16 @@ public class Student extends Human {
 
     private void pay() {
         Random r = new Random();
-        pass.payState = r.nextBoolean();
+        pass.payState = r.nextInt(10)<8;;
     }
 
     private void cleanRoom() {
         Random r = new Random();
-        pass.room.isClean = r.nextBoolean();
+        pass.room.isClean = r.nextInt(10)<8;
     }
 
     String getStringName() {
-        return firstName + " " + lastName;
+        return firstName + " " + lastName + ", " + course;
     }
 
     void update() {

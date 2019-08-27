@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 public class Administration {
     Hostel hostel;
@@ -11,12 +8,13 @@ public class Administration {
     Map<Floor, Warden> wardenMap;
     ArrayList<Pass> passList;
 
-    public Administration(Commandant commandant, Hostel hostel, Time hostelTime) {
+    public Administration(Hostel hostel, Time hostelTime) {
         passList = new ArrayList<>();
-        this.commandant = commandant;
         this.hostel = hostel;
+        this.commandant = new Commandant(hostel, passList);
         this.hostelTime = hostelTime;
         this.wardenMap = initWardens();
+        this.guard = new Guard();
     }
 
     Map<Floor, Warden> initWardens() {
@@ -37,18 +35,31 @@ public class Administration {
 
     void updateWeek() {
         hostelTime.increaseTime();
+        System.out.println();
+        System.out.println("*****************************************************************************************");
         System.out.println("Year " + hostelTime.getCurrentYear() + ", week " + hostelTime.getCurrentWeek()%52);
         if (hostelTime.getCurrentWeek()%52==0) newCourse();
-        if (hostelTime.getCurrentWeek()%4==1) payday();
+        if (hostelTime.getCurrentWeek()%4==0) payday();
+        for (Floor floor: hostel.floors) {
+            floor.update();
+        }
+        System.out.println();
         checkHostel();
+        System.out.println();
         commandant.checkBook();
     }
 
     boolean checkWardenOnTheFloor(Floor floor) {
-        return wardenMap.get(floor) != null && wardenMap.get(floor).pass.note!=Notes.MOVING_OUT;
+        return wardenMap.get(floor) != null;
     }
 
     void newCourse() {
+        System.out.println();
+        System.out.println("*****************************************************************************************");
+        System.out.println("*****************************************************************************************");
+        System.out.println("*****************************************************************************************");
+        System.out.println();
+
         System.out.println("New course starts.");
         for(Floor floor: hostel.floors) {
             floor.updateCourse();
@@ -69,6 +80,7 @@ public class Administration {
                     Warden warden = new Warden(candidate, floor);
                     room.getRoommates().remove(i);
                     room.addRoommate(warden);
+                    wardenMap.put(floor, warden);
                     System.out.println(warden.getStringName() + " is Warden.");
                     return warden;
                 }
@@ -81,8 +93,8 @@ public class Administration {
         for(Map.Entry<Floor, Warden> pair: wardenMap.entrySet()) {
             if (checkWardenOnTheFloor(pair.getKey()) || appointWarden(pair.getKey())!=null) {
                 if(pair.getValue() != null) {
-                    LinkedList<Student> movingOut = pair.getValue().checkFloor();
-                    if (movingOut != null) guard.moveOutStudents(movingOut);
+                    List<Student> movingOut = pair.getValue().checkFloor();
+                    if (movingOut.size() != 0) guard.moveOutStudents(movingOut);
                 }
             }
         }

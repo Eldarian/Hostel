@@ -35,8 +35,21 @@ public class Floor{
             for (Student student: room.getRoommates()) {
                 if (student.course < 4) {
                     student.course++;
+                } else {
+                    System.out.println(student.getStringName() + " is going to leave the hostel because he is graduate.");
+                    student.pass.note = Notes.MOVING_OUT;
                 }
             }
         }
+    }
+
+    void update() {
+        for (Room room: rooms) {
+            room.setCleaner();
+            for (Student student: room.getRoommates()) {
+                student.update();
+            }
+        }
+
     }
 }
