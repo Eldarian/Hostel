@@ -1,23 +1,27 @@
 import java.util.ArrayList;
+import java.util.Queue;
 
-public class Commandant extends Human{
-    private Hostel hostel;
-    ArrayList<Pass> passList;
+class Commandant extends Human{
+    private Building building;
+    private ArrayList<Pass> passList;
     private int id=0;
+    Queue<Student> studentsWithPass;
 
-    Commandant(Hostel hostel, ArrayList<Pass> passList) {
-        this.hostel = hostel;
+    Commandant(Building building, ArrayList<Pass> passList, Queue<Student> studentsWithPass) {
+        this.building = building;
         this.passList = passList;
+        this.studentsWithPass = studentsWithPass;
     }
 
-    void addStudent(String firstName, String lastName, int course) {
-        int currentWeek = hostel.hostelTime.getCurrentWeek();
-        Student newbie = new Student(firstName, lastName, course, currentWeek, id++);
-        System.out.print("Commandant: " + newbie.getStringName() + ", course " + course);
-        for (Floor floor : hostel.floors) {
+    void addStudent(Guest guest) {
+        int currentWeek = building.hostelTime.getCurrentWeek();
+        Student newbie = new Student(guest.firstName, guest.lastName, guest.course, currentWeek, id++);
+        System.out.print("Commandant: " + newbie.getStringName() + ", course " + newbie.course);
+        for (Building.Floor floor : building.floors) {
             if (floor.addStudent(newbie)) {
                 System.out.println(" has settled");
-                hostel.administration.passList.add(newbie.pass);
+                passList.add(newbie.getPass());
+                studentsWithPass.offer(newbie);
                 return;
             }
         }
@@ -26,7 +30,7 @@ public class Commandant extends Human{
     private void removeStudent(Pass pass) {
         System.out.println("Commandant cancels pass for " + pass.owner);
         pass.isValid = false;
-        hostel.administration.passList.remove(pass);
+        passList.remove(pass);
     }
     void checkBook() {
         System.out.println("Commandant checks his book.");

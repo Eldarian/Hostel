@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Student extends Human {
     int course;
-    Pass pass;
+    private Pass pass;
 
     Student(String firstName, String lastName, int course, int settleTime, int id) {
         this.firstName = firstName;
@@ -11,11 +11,15 @@ public class Student extends Human {
         this.pass = new Pass(this.getStringName(), settleTime, id);
     }
 
-    protected Student(String firstName, String lastName, int course, Pass pass) {
+    Student(String firstName, String lastName, int course, Pass pass) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.course = course;
         this.pass = pass;
+    }
+
+    Pass getPass() {
+        return pass;
     }
 
     private void pay() {

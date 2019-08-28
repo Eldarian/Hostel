@@ -1,13 +1,11 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-public class Warden extends Student{
-    Floor floor;
+class Warden extends Student{
+    private Building.Floor floor;
 
-    public Warden(Student student, Floor floor) {
-        super(student.firstName, student.lastName, student.course, student.pass);
+    Warden(Student student, Building.Floor floor) {
+        super(student.firstName, student.lastName, student.course, student.getPass());
         this.floor = floor;
     }
 
@@ -19,22 +17,10 @@ public class Warden extends Student{
                 checkRoom(room, illegals);
             }
         }
-        System.out.println(illegals);
         return illegals;
     }
 
-    /*void checkRooms() {
-        if(warden!=null) {
-            System.out.println("Warden of floor " + floorNumber + " has started checking rooms.");
-            for(Room room : rooms) {
-                warden.checkRoom(room, rooms.indexOf(room));
-            }
-        } else {
-            System.out.println("The floor "+ floorNumber + " is empty.");
-        }
-    }*/
-
-    void checkRoom(Room room, List<Student> illegals) {
+    private void checkRoom(Room room, List<Student> illegals) {
         System.out.println("Checking is room number " + room.roomNumber + " on the " + floor.floorNumber + " floor clean...");
         room.printRoomMates(floor.floorNumber);
         if(!room.isClean) {
@@ -50,20 +36,20 @@ public class Warden extends Student{
     }
 
     private boolean checkStudent(Student student) {
-        if (!student.pass.payState) {
-            student.pass.note = Notes.MOVING_OUT;
-            System.out.println(student.getStringName() + " " + student.pass.getStartDate() +  " will be cancelled for debts.");
+        if (!student.getPass().payState) {
+            student.getPass().note = Notes.MOVING_OUT;
+            System.out.println(student.getStringName() + " " + student.getPass().getStartDate() +  " will be cancelled for debts.");
         }
-        return student.pass.isValid;
+        return student.getPass().isValid;
     }
 
     private void makeWarn(Student student) {
-        if (student.pass.note == Notes.OK) {
-            student.pass.note = Notes.WARNED;
+        if (student.getPass().note == Notes.OK) {
+            student.getPass().note = Notes.WARNED;
             System.out.println(student.getStringName() + " has been warned.");
         }
         else {
-            student.pass.note = Notes.MOVING_OUT;
+            student.getPass().note = Notes.MOVING_OUT;
             System.out.println(student.getStringName() + " will be cancelled for bad discipline.");
         }
     }

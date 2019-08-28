@@ -15,7 +15,7 @@ class Room {
     boolean addRoommate(Student newbie) {
         if (roommates.size() < Hostel.studentsInRoom) {
             roommates.add(newbie);
-            newbie.pass.room = this;
+            newbie.getPass().room = this;
             if (roommates.size()==1) {
                 setCleaner();
             }
@@ -28,11 +28,10 @@ class Room {
         return roommates.size()!=0;
     }
 
-    boolean moveOutRoommate(Student loser) {
-        if (!roommates.contains(loser)) return false;
+    void moveOutRoommate(Student loser) {
+        if (!roommates.contains(loser)) return;
         if (cleaner == loser) setCleaner();
         roommates.remove(loser);
-        return true;
     }
 
     Student getCleaner() {

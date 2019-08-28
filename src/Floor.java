@@ -1,8 +1,4 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 public class Floor{
     int floorNumber;
@@ -37,7 +33,7 @@ public class Floor{
                     student.course++;
                 } else {
                     System.out.println(student.getStringName() + " is going to leave the hostel because he is graduate.");
-                    student.pass.note = Notes.MOVING_OUT;
+                    student.getPass().note = Notes.MOVING_OUT;
                 }
             }
         }

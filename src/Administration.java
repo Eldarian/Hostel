@@ -1,36 +1,40 @@
 import java.util.*;
 
 public class Administration {
-    Hostel hostel;
-    Time hostelTime;
-    Commandant commandant;
-    Guard guard;
-    Map<Floor, Warden> wardenMap;
-    ArrayList<Pass> passList;
+    private Building building;
+    private Time hostelTime;
+    private Commandant commandant;
+    private Guard guard;
+    private Map<Building.Floor, Warden> wardenMap;
+    private ArrayList<Pass> passList;
 
-    public Administration(Hostel hostel, Time hostelTime) {
+    Administration(Queue<Human> entranceList, Queue<Student> studentsWithPass, Time hostelTime) {
         passList = new ArrayList<>();
-        this.hostel = hostel;
-        this.commandant = new Commandant(hostel, passList);
+        this.building = new Building(hostelTime);
+        this.commandant = new Commandant(building, passList, studentsWithPass);
         this.hostelTime = hostelTime;
         this.wardenMap = initWardens();
-        this.guard = new Guard();
+        this.guard = new Guard(entranceList, this);
     }
 
-    Map<Floor, Warden> initWardens() {
-        Map<Floor, Warden> wardenMap = new HashMap<>();
-        for(Floor floor: hostel.floors) {
+    private Map<Building.Floor, Warden> initWardens() {
+        Map<Building.Floor, Warden> wardenMap = new HashMap<>();
+        for(Building.Floor floor: building.floors) {
             wardenMap.put(floor, null);
         }
         return wardenMap;
     }
 
-    public Commandant getCommandant() {
+    Commandant getCommandant() {
         return commandant;
     }
 
-    public Guard getGuard() {
+    Guard getGuard() {
         return guard;
+    }
+
+    boolean isInPassList(Pass pass) {
+         return passList.contains(pass);
     }
 
     void updateWeek() {
@@ -40,7 +44,7 @@ public class Administration {
         System.out.println("Year " + hostelTime.getCurrentYear() + ", week " + hostelTime.getCurrentWeek()%52);
         if (hostelTime.getCurrentWeek()%52==0) newCourse();
         if (hostelTime.getCurrentWeek()%4==0) payday();
-        for (Floor floor: hostel.floors) {
+        for (Building.Floor floor: building.floors) {
             floor.update();
         }
         System.out.println();
@@ -49,11 +53,11 @@ public class Administration {
         commandant.checkBook();
     }
 
-    boolean checkWardenOnTheFloor(Floor floor) {
+    private boolean checkWardenOnTheFloor(Building.Floor floor) {
         return wardenMap.get(floor) != null;
     }
 
-    void newCourse() {
+    private void newCourse() {
         System.out.println();
         System.out.println("*****************************************************************************************");
         System.out.println("*****************************************************************************************");
@@ -61,22 +65,22 @@ public class Administration {
         System.out.println();
 
         System.out.println("New course starts.");
-        for(Floor floor: hostel.floors) {
+        for(Building.Floor floor: building.floors) {
             floor.updateCourse();
         }
     }
-    void payday() {
+    private void payday() {
         System.out.println("It's payday...");
         for(Pass pass: passList) {
             pass.payState = false;
         }
     }
 
-    Warden appointWarden(Floor floor) {
+    private Warden appointWarden(Building.Floor floor) {
         for (Room room : floor.rooms) {
             for (int i = 0; i < room.getRoommates().size(); i++) {
                 Student candidate = room.getRoommates().get(i);
-                if (hostelTime.getCurrentYear() == 1 || hostelTime.getLivingYear(candidate.pass.getStartDate()) > 1) {
+                if (hostelTime.getCurrentYear() == 1 || hostelTime.getLivingYear(candidate.getPass().getStartDate()) > 1) {
                     Warden warden = new Warden(candidate, floor);
                     room.getRoommates().remove(i);
                     room.addRoommate(warden);
@@ -89,8 +93,8 @@ public class Administration {
         return null;
     }
 
-    void checkHostel() {
-        for(Map.Entry<Floor, Warden> pair: wardenMap.entrySet()) {
+    private void checkHostel() {
+        for(Map.Entry<Building.Floor, Warden> pair: wardenMap.entrySet()) {
             if (checkWardenOnTheFloor(pair.getKey()) || appointWarden(pair.getKey())!=null) {
                 if(pair.getValue() != null) {
                     List<Student> movingOut = pair.getValue().checkFloor();

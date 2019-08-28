@@ -13,7 +13,7 @@ class Time {
         return currentWeek;
     }
 
-    int getLivingWeek(int startWeek) {
+    private int getLivingWeek(int startWeek) {
         return currentWeek-startWeek;
     }
 
