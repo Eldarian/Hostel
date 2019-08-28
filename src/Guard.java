@@ -4,20 +4,22 @@ import java.util.Queue;
 
 public class Guard extends Human{
     private volatile Queue<Human> entranceList;
-    private Administration administration;
+    private HostelRunnable.Hostel hostel;
 
-    Guard(Queue<Human> entranceList, Administration administration) {
+    Guard(Queue<Human> entranceList, HostelRunnable.Hostel hostel) {
+        firstName = "Mr.";
+        lastName = "Guard";
         this.entranceList = entranceList;
-        this.administration = administration;
+        this.hostel = hostel;
     }
 
     void admit() {
         if (entranceList != null && entranceList.peek() instanceof Guest) {
-            administration.getCommandant().addStudent((Guest) Objects.requireNonNull(entranceList.poll()));
+            hostel.getCommandant().addStudent((Guest) Objects.requireNonNull(entranceList.poll()));
         }
         if (entranceList.peek() != null && entranceList.peek() instanceof Student) {
             Student student = (Student) Objects.requireNonNull(entranceList.poll());
-            if (administration.isInPassList(student.getPass())) {
+            if (hostel.isInPassList(student.getPass())) {
                 System.out.println("Guard admitted " + student.getStringName() + " with pass.");
             } else {
                 System.out.println("Guard didn't let " + student.getStringName() + " without pass.");

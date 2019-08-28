@@ -54,10 +54,10 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="Hostel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="HostelRunnable" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="C:/Program Files/Java/jre1.8.0_212" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="Hostel" />
+      <option name="MAIN_CLASS_NAME" value="HostelRunnable" />
       <module name="Hostel" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -65,7 +65,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Hostel" />
+        <item itemvalue="Application.HostelRunnable" />
       </list>
     </recent_temporary>
   </component>
@@ -81,7 +81,7 @@
       <updated>1566410228277</updated>
       <workItem from="1566920992180" duration="2637000" />
       <workItem from="1566971698959" duration="246000" />
-      <workItem from="1566972055852" duration="11081000" />
+      <workItem from="1566972055852" duration="15656000" />
     </task>
     <servers />
   </component>

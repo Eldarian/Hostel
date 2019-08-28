@@ -1,6 +1,3 @@
-import java.sql.DatabaseMetaData;
-import java.util.Date;
-
 class Pass {
     private final int id;
     final String owner;
@@ -8,7 +5,7 @@ class Pass {
     boolean isValid = true;;
     boolean payState;
     Notes note;
-    Room room;
+    Building.Floor.Room room;
 
     Pass(String owner, int startDate, int id) {
         this.startDate = startDate;
@@ -28,4 +25,7 @@ class Pass {
     }
 
 
+    public enum Notes {
+        WARNED, MOVING_OUT, OK
+    }
 }

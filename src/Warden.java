@@ -12,7 +12,7 @@ class Warden extends Student{
     List<Student> checkFloor() {
         System.out.println("Warden of floor " + floor.floorNumber + " has started checking rooms.");
         List<Student> illegals = new ArrayList<>();
-        for(Room room: floor.rooms) {
+        for(Building.Floor.Room room: floor.rooms) {
             if(room.hasRoommates()){
                 checkRoom(room, illegals);
             }
@@ -20,7 +20,7 @@ class Warden extends Student{
         return illegals;
     }
 
-    private void checkRoom(Room room, List<Student> illegals) {
+    private void checkRoom(Building.Floor.Room room, List<Student> illegals) {
         System.out.println("Checking is room number " + room.roomNumber + " on the " + floor.floorNumber + " floor clean...");
         room.printRoomMates(floor.floorNumber);
         if(!room.isClean) {
@@ -37,19 +37,19 @@ class Warden extends Student{
 
     private boolean checkStudent(Student student) {
         if (!student.getPass().payState) {
-            student.getPass().note = Notes.MOVING_OUT;
+            student.getPass().note = Pass.Notes.MOVING_OUT;
             System.out.println(student.getStringName() + " " + student.getPass().getStartDate() +  " will be cancelled for debts.");
         }
         return student.getPass().isValid;
     }
 
     private void makeWarn(Student student) {
-        if (student.getPass().note == Notes.OK) {
-            student.getPass().note = Notes.WARNED;
+        if (student.getPass().note == Pass.Notes.OK) {
+            student.getPass().note = Pass.Notes.WARNED;
             System.out.println(student.getStringName() + " has been warned.");
         }
         else {
-            student.getPass().note = Notes.MOVING_OUT;
+            student.getPass().note = Pass.Notes.MOVING_OUT;
             System.out.println(student.getStringName() + " will be cancelled for bad discipline.");
         }
     }

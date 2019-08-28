@@ -8,6 +8,8 @@ class Commandant extends Human{
     Queue<Student> studentsWithPass;
 
     Commandant(Building building, ArrayList<Pass> passList, Queue<Student> studentsWithPass) {
+        firstName = "El";
+        lastName = "Commandante";
         this.building = building;
         this.passList = passList;
         this.studentsWithPass = studentsWithPass;
@@ -35,7 +37,7 @@ class Commandant extends Human{
     void checkBook() {
         System.out.println("Commandant checks his book.");
         for (int i = 0; i < passList.size(); i++) {
-            if(passList.get(i).note == Notes.MOVING_OUT) {
+            if(passList.get(i).note == Pass.Notes.MOVING_OUT) {
                 removeStudent(passList.get(i));
             }
         }
